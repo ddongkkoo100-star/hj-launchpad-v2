@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0F172A">
+  <title>HJ 런치패드</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="logo">
+      <span class="logo-mark">HJ</span>
+      <span class="logo-text">런치패드</span>
+    </div>
+    <div class="header-meta">
+      <span class="ver-chip" id="ver-chip">v0.1</span>
+    </div>
+  </header>
+
+  <main id="view-root" class="view-root">
+    <!-- 라우터가 채움 -->
+  </main>
+
+  <nav class="tab-bar" id="tab-bar">
+    <a href="#/" class="tab" data-route="dashboard">
+      <span class="tab-icon">▦</span>
+      <span class="tab-label">대시보드</span>
+    </a>
+    <a href="#/card/P1A" class="tab" data-route="card">
+      <span class="tab-icon">▶</span>
+      <span class="tab-label">카드</span>
+    </a>
+    <a href="#/import" class="tab" data-route="import">
+      <span class="tab-icon">⇣</span>
+      <span class="tab-label">Import</span>
+    </a>
+    <a href="#/data" class="tab" data-route="data">
+      <span class="tab-icon">⎘</span>
+      <span class="tab-label">자료</span>
+    </a>
+    <a href="#/settings" class="tab" data-route="settings">
+      <span class="tab-icon">⚙</span>
+      <span class="tab-label">설정</span>
+    </a>
+  </nav>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

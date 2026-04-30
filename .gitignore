@@ -1,0 +1,61 @@
+# ── OS 시스템 파일 ────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# ── 에디터 / IDE ─────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# ── 로그 / 임시 ──────────────────────
+*.log
+*.tmp
+*.bak
+*.cache
+/tmp/
+/.tmp/
+
+# ── Node (혹시 npm 도구 도입 시 대비) ──
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.npm/
+
+# ── Python (아이콘 생성용 임시) ───────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ── 환경 변수 / 비밀 ─────────────────
+.env
+.env.*
+*.key
+*.pem
+secrets/
+
+# ── 로컬 전용 Claude 설정 ────────────
+.claude/settings.local.json
+
+# ── 매뉴얼 원본 (저장소 미포함) ──────
+hj_launchpad_v6_manual.html
+
+# ── PWA / 빌드 산출물 (현재는 빌드 단계 없음, 미래 대비) ──
+dist/
+build/
+.parcel-cache/
+
+# ── 사용자 데이터 백업 / 테스트용 JSON ──
+backups/
+*.local.json
+runs/

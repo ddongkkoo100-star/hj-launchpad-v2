@@ -1,0 +1,224 @@
+/* ═══ HJ 런치패드 — Step 1 기본 다크 테마 ═══ */
+
+:root {
+  --bg:        #07090f;
+  --bg2:       #0d1119;
+  --bg3:       #131824;
+  --bg4:       #192030;
+  --border:    #1e2d44;
+  --border2:   #28394f;
+  --accent:    #00c8ff;
+  --grok:      #f97316;
+  --gpt:       #10a37f;
+  --claude:    #8b5cf6;
+  --green:     #22c55e;
+  --yellow:    #eab308;
+  --red:       #ef4444;
+  --text:      #d4dff0;
+  --muted:     #5c7a99;
+  --dim:       #8a9bb0;
+  --navy:      #0F172A;
+  --mono:      'JetBrains Mono', 'Consolas', monospace;
+  --sans:      'Noto Sans KR', system-ui, -apple-system, sans-serif;
+  --tabbar-h:  60px;
+  --header-h:  52px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── HEADER ─────────────────────────────── */
+.app-header {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  height: var(--header-h);
+  padding: 0 16px;
+  background: rgba(7, 9, 15, 0.94);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px;
+  background: var(--navy);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 12px; font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+.logo-text {
+  font-family: var(--mono);
+  font-size: 14px; font-weight: 700;
+  color: var(--text);
+}
+.header-meta { display: flex; align-items: center; gap: 8px; }
+.ver-chip {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  background: rgba(0, 200, 255, 0.07);
+  border: 1px solid rgba(0, 200, 255, 0.18);
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+/* ── VIEW ROOT ──────────────────────────── */
+.view-root {
+  position: relative;
+  padding: 20px 16px calc(var(--tabbar-h) + 24px);
+  max-width: 760px;
+  margin: 0 auto;
+  min-height: calc(100vh - var(--header-h));
+}
+
+/* ── TAB BAR ────────────────────────────── */
+.tab-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  height: var(--tabbar-h);
+  background: rgba(13, 17, 25, 0.96);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tab {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 10px;
+  transition: color .15s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--accent); }
+.tab-icon { font-size: 18px; line-height: 1; }
+.tab-label { font-family: var(--mono); font-size: 10px; font-weight: 600; }
+
+/* ── 공통 컴포넌트 ──────────────────────── */
+.section-title {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 4px 0 12px;
+}
+.placeholder {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  background: var(--bg2);
+  border: 1px dashed var(--border2);
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.placeholder strong { color: var(--text); display: block; margin-bottom: 6px; }
+.placeholder .hint {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+}
+
+/* 카드 리스트 (Step 1: 코드만 보이는 단순 리스트) */
+.card-list { display: flex; flex-direction: column; gap: 8px; }
+.card-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color .15s, transform .05s;
+}
+.card-row:active { transform: scale(0.99); }
+.card-row.is-defense {
+  border-color: rgba(239, 68, 68, 0.45);
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.06), var(--bg2) 40%);
+}
+.card-code {
+  font-family: var(--mono);
+  font-size: 12px; font-weight: 700;
+  color: var(--text);
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  padding: 4px 9px;
+  border-radius: 5px;
+  min-width: 56px;
+  text-align: center;
+}
+.card-meta { flex: 1; min-width: 0; }
+.card-title {
+  font-size: 13px; font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-desc {
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-badges { display: flex; gap: 4px; flex-shrink: 0; }
+.badge {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.badge-grok   { background: rgba(249, 115, 22, 0.15); color: var(--grok); }
+.badge-gpt    { background: rgba(16, 163, 127, 0.15); color: var(--gpt); }
+.badge-claude { background: rgba(139, 92, 246, 0.15); color: var(--claude); }
+.badge-defense {
+  background: rgba(239, 68, 68, 0.18);
+  color: var(--red);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+.group-header {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin: 22px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.group-header:first-child { margin-top: 0; }
+.group-header .count {
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 6px;
+}
+
+/* 디버그 메모 (Step 1 검수용) */
+.debug-note {
+  margin-top: 24px;
+  padding: 12px 14px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+  line-height: 1.7;
+}
+.debug-note strong { color: var(--accent); }
