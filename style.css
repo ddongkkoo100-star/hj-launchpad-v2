@@ -422,6 +422,188 @@ body {
   line-height: 1.6;
 }
 
+/* ═══ Step 3-B: 카드 화면 ═══ */
+
+/* 방어선 카드 보더 강조 (카드 상세 화면) */
+.card-detail.is-defense {
+  border-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.15) inset;
+}
+
+/* 의존 칩 — 클릭 가능한 a 태그 */
+.dep-chip {
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity .15s, transform .05s;
+}
+.dep-chip:hover { opacity: 0.85; }
+.dep-chip:active { transform: scale(0.97); }
+.dep-chip.is-defense-dep {
+  border-color: rgba(239, 68, 68, 0.5) !important;
+}
+
+/* 합성 프롬프트 미리보기 (<details>) */
+.prompt-preview {
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg3);
+  overflow: hidden;
+}
+.prompt-preview > summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.4px;
+  user-select: none;
+  list-style: none;
+}
+.prompt-preview > summary::-webkit-details-marker { display: none; }
+.prompt-preview > summary::before {
+  content: '▸ ';
+  color: var(--accent);
+  margin-right: 4px;
+  display: inline-block;
+  transition: transform .15s;
+}
+.prompt-preview[open] > summary::before { transform: rotate(90deg); }
+.prompt-preview > summary:hover { background: var(--bg4); }
+.ppv-hint {
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--muted);
+  margin-left: 6px;
+}
+
+.prompt-preview-body {
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--border);
+}
+.prompt-preview-box {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.55;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.prompt-missing-warn {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(245, 158, 11, 0.10);
+  border: 1px solid rgba(245, 158, 11, 0.40);
+  border-radius: 6px;
+  color: #fcd34d;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* 액션 버튼 영역 */
+.action-row {
+  margin-top: 18px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.action-row.locked-msg {
+  background: var(--bg3);
+  color: var(--muted);
+  padding: 14px 16px;
+  border: 1px dashed var(--border2);
+  border-radius: 8px;
+  font-size: 12px;
+  justify-content: center;
+}
+
+/* AI 사이트 외부 링크 — 버튼 형태이지만 a 태그 */
+.ai-target-link {
+  text-decoration: none;
+  /* btn-sec 스타일 상속, 추가 미세 조정만 */
+}
+.ai-target-link:hover { text-decoration: none; }
+
+/* 검토 완료 마크 (REVIEWED 상태) */
+.reviewed-mark {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.10);
+  border: 1px solid rgba(34, 197, 94, 0.40);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+/* 결과 textarea + 글자수 */
+.cd-section-label .char-count {
+  float: right;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--dim);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.ta-result {
+  width: 100%;
+  min-height: 200px;
+  padding: 12px 14px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.55;
+  resize: vertical;
+  outline: none;
+}
+.ta-result:focus { border-color: var(--accent); }
+@media (max-width: 600px) {
+  .ta-result { font-size: 13px; min-height: 240px; }
+  .prompt-preview-box { font-size: 11px; }
+  .action-row { gap: 6px; }
+  .action-row .btn-primary,
+  .action-row .btn-sec { font-size: 12px; padding: 10px 14px; flex: 1 1 auto; min-width: 0; }
+  .action-row.locked-msg { font-size: 11px; }
+}
+
+/* 복사 토스트 */
+.toast-copy {
+  position: fixed;
+  bottom: calc(var(--tabbar-h) + 18px);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(7, 9, 15, 0.96);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 10px 18px;
+  border-radius: 24px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s, transform .15s;
+  z-index: 200;
+  white-space: nowrap;
+}
+.toast-copy.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* 디버그 메모 (Step 1 검수용) */
 .debug-note {
   margin-top: 24px;
