@@ -39,15 +39,29 @@ export const STATUS_META = {
   WARNING:  { label: '점검 필요', icon: '⚠',  cls: 'status-warning'  },
 };
 
-// dep이 "충족"으로 간주되는 상태들 (LOCKED → READY 전이 판정용)
-const DEP_SATISFIED_STATES = new Set([STATUS.SAVED, STATUS.REVIEWED]);
+// dep "충족" 판정 (Step 3-A: 방어선 카드 차등 처리)
+//
+//   일반 dep (defenseLine !== true): SAVED 또는 REVIEWED → 충족
+//   방어선 dep (defenseLine === true): REVIEWED 만 → 충족 (SAVED만으로는 부족)
+//
+// 즉, deps 배열에 G1/C1/I2 같은 방어선 카드가 있으면, 그 카드가 사용자에게
+// 명시적으로 "검토 완료"되어야만 후속 카드가 unlock된다 (절대 원칙 #3).
+function isDepSatisfied(depCard, depState) {
+  if (!depState) return false;
+  if (depCard && depCard.defenseLine === true) {
+    return depState === STATUS.REVIEWED;
+  }
+  return depState === STATUS.SAVED || depState === STATUS.REVIEWED;
+}
 
 /**
  * 카드 상태 계산 — 순수 함수, DB I/O 없음.
  *
  * 규칙:
  *   1) ownState가 null/LOCKED 이외인 경우 그대로 유지 (수동 전이 보존)
- *   2) ownState가 null/LOCKED 이고 deps가 모두 SAVED/REVIEWED → READY
+ *   2) ownState가 null/LOCKED 이고 모든 deps가 isDepSatisfied → READY
+ *      · 일반 dep: SAVED 또는 REVIEWED 충족
+ *      · 방어선 dep (G1/C1/I2): REVIEWED 만 충족 (Step 3-A)
  *   3) 그 외 → LOCKED
  *   4) 절대 RUNNING을 반환하지 않는다 (자동 진행 금지)
  *
@@ -69,7 +83,7 @@ export function computeStatus(cardCode, depStateMap = {}, ownState = null) {
     return ownState;
   }
 
-  // (2)(3) deps 검사
+  // (2)(3) deps 검사 — 방어선 dep은 REVIEWED만 충족
   const deps = (DEPS[cardCode] || []).filter(depCode => {
     const dep = CARD_BY_CODE[depCode];
     // enabled=false 카드는 의존에서 제외 (예: AV)
@@ -81,8 +95,9 @@ export function computeStatus(cardCode, depStateMap = {}, ownState = null) {
   }
 
   const allSatisfied = deps.every(depCode => {
+    const depCard = CARD_BY_CODE[depCode];
     const depStatus = depStateMap[depCode];
-    return depStatus && DEP_SATISFIED_STATES.has(depStatus);
+    return isDepSatisfied(depCard, depStatus);
   });
 
   return allSatisfied ? STATUS.READY : STATUS.LOCKED;

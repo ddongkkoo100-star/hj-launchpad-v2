@@ -25,6 +25,7 @@ export const CARDS = [
     dep: '',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: true, tasksGroup: 'COLLECT-1',
+    aiTarget: { name: 'GROK', url: 'https://grok.com' },
     prompt: `GROK — P1A 매크로 헤드라인 v6
 오늘: {TODAY}
 기준 시점: 한국 시간 06:00~09:00 사이 출력
@@ -116,6 +117,7 @@ D. 장 마감/개장 데이터: NYSE/NASDAQ 종가, 시간외, KRX 시간외 단
     dep: 'P1A 결과 필수',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: true, tasksGroup: 'COLLECT-1',
+    aiTarget: { name: 'GROK', url: 'https://grok.com' },
     prompt: `GROK — P1B 섹터/모멘텀 v6
 오늘: {TODAY}
 기준 시점: P1A 직후
@@ -194,6 +196,7 @@ C. ETF:
     dep: 'P1A·P1B 이후',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: true, tasksGroup: 'COLLECT-2',
+    aiTarget: { name: 'GROK', url: 'https://grok.com' },
     prompt: `GROK — P2 커뮤니티 스캐너 v6
 오늘: {TODAY}
 기준 시점: P1A·P1B 이후
@@ -277,6 +280,7 @@ D. 네이버 종토 TOP10 / E. 인포스탁 TOP10 / F. X 미국 TOP10 / G. X 한
     dep: 'P2 이후',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: true, tasksGroup: 'COLLECT-2',
+    aiTarget: { name: 'GROK', url: 'https://grok.com' },
     prompt: `GROK — P3 X 트렌드 + 핫픽 v6
 오늘: {TODAY}
 기준 시점: P2 이후
@@ -380,6 +384,7 @@ Grok 네이티브 X 검색 능력을 100% 활용해, 오늘 시장에 영향 줄
     dep: 'P1A·P1B·M1 이후',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: true, tasksGroup: 'COLLECT-3',
+    aiTarget: { name: 'GROK', url: 'https://grok.com' },
     prompt: `GROK — D1 공식 데이터 보강 v6
 오늘: {TODAY}
 
@@ -456,6 +461,7 @@ TSLA 분기 매출 정상 범위: $20B~$30B
     dep: 'P1A·P1B·P2·P3·M1·M2·D1 이후',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: true, tasksGroup: 'COLLECT-3',
+    aiTarget: { name: 'GROK', url: 'https://grok.com' },
     prompt: `GROK — N0 뉴스 신뢰도 필터 v6
 오늘: {TODAY}
 
@@ -509,6 +515,7 @@ E. 공식 확인 가능성
     dep: 'P1A·P1B 이후',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'Claude', url: 'https://claude.ai' },
     prompt: `GROK — M0 레짐 분류 v6
 오늘: {TODAY}
 기준 시점: P1A~P3 완료 후
@@ -571,6 +578,7 @@ P1A·P1B에서 수집한 수치만 사용해 오늘 레짐을 판정한다.
     dep: 'M0·P2·P3 이후',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'Claude', url: 'https://claude.ai' },
     prompt: `GROK — M1 이상치 스캔 v6
 오늘: {TODAY}
 
@@ -615,6 +623,7 @@ P1A~P3 데이터만 기반으로 비대칭 신호를 발굴한다.
     dep: 'M0·M1 이후',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'Claude', url: 'https://claude.ai' },
     prompt: `GROK — M2 섹터 체인맵 v6
 오늘: {TODAY}
 
@@ -644,6 +653,7 @@ P1A~P3 데이터만 기반으로 비대칭 신호를 발굴한다.
     dep: 'M1·M2·D1·P2·P3 이후',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'Claude', url: 'https://claude.ai' },
     prompt: `GROK — M3 후보 점수화 v6
 오늘: {TODAY}
 
@@ -694,6 +704,7 @@ Low(C)   |  1~3%   |  3~5%  |  금지
     dep: 'M0·M3·D1·P2·P3 이후',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'Claude', url: 'https://claude.ai' },
     prompt: `GROK — T1 Thesis 헬스체크 v6
 오늘: {TODAY}
 
@@ -751,6 +762,7 @@ Low(C)   |  1~3%   |  3~5%  |  금지
     dep: 'M3·D1·P1B 결과',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'Claude', url: 'https://claude.ai' },
     prompt: `GPT — V1 Alpha Validator v6
 오늘: {TODAY}
 
@@ -815,6 +827,7 @@ D. 출처 4단 점검: 모든 인용 수치에 4단 표기
     dep: 'M0·M3·V1 이후',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'Claude', url: 'https://claude.ai' },
     prompt: `GROK — P0 포트 브리지 v6
 오늘: {TODAY}
 
@@ -861,6 +874,7 @@ D. 출처 4단 점검: 모든 인용 수치에 4단 표기
     dep: 'M3·P0 이후',
     visible: true, enabled: true, defenseLine: true,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'ChatGPT', url: 'https://chatgpt.com' },
     prompt: `GROK — I2 Thesis Breaker v6
 오늘: {TODAY}
 
@@ -913,6 +927,7 @@ D. 출처 4단 점검: 모든 인용 수치에 4단 표기
     dep: '전 카드',
     visible: true, enabled: true, defenseLine: true,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'Claude', url: 'https://claude.ai' },
     prompt: `GPT — G1 종합 시장 브리핑 v7
 오늘: {TODAY}
 
@@ -1073,6 +1088,7 @@ R1 결과 기반.
     dep: 'G1·R1·T1·I2',
     visible: true, enabled: true, defenseLine: true,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'Claude', url: 'https://claude.ai' },
     prompt: `Claude — C1 최종 보고서 HTML 생성 v6
 오늘: {TODAY}
 
@@ -1126,6 +1142,7 @@ present_files로 HTML 제출.`,
     dep: '',
     visible: true, enabled: true, defenseLine: false,
     isTasksTarget: false, tasksGroup: null,
+    aiTarget: { name: 'ChatGPT', url: 'https://chatgpt.com' },
     prompt: `GPT — R1 다음날 복기 v6
 오늘: {TODAY}
 
