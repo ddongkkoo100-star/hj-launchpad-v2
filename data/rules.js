@@ -29,3 +29,45 @@ export const REVIEW_RULES = [
   { type: 'info', num: 'R-10', title: '월간 파이프라인 리뷰',
     body: '매월 마지막 주 — Critical Path 재검토, 프롬프트 drift 여부 확인, 실제 수익률 vs AI 추천 방향 비교.' },
 ];
+
+// ── Step 3-C: 절대성 표현 검증 룰 ──────────────────
+// 방어선 카드(G1·C1·I2)에 한정해, 결과 paste 시 절대성 표현이 들어 있으면
+// 노란 경고 박스로 안내. 저장 차단은 하지 않는다 — 사용자에게 한 번 더 검토 권장.
+//
+// 사용자 명세에 따라 REVIEW_RULES 배열에 속성으로 부착 (REVIEW_RULES.absoluteExpression).
+REVIEW_RULES.absoluteExpression = {
+  appliesTo: ['G1', 'C1', 'I2'],
+  patterns: [
+    '확실', '확실히', '확실하게',
+    '100%', '100 퍼센트', '100퍼센트',
+    '무조건',
+    '반드시',
+    '절대',
+    '틀림없이', '틀림없는',
+    '의심의 여지없',
+    '확정적',
+  ],
+  severity: 'WARNING',
+  message: '절대성 표현 감지',
+};
+
+/**
+ * 텍스트에 절대성 표현이 들어 있는지 검사.
+ *
+ *   - 방어선 카드(G1·C1·I2)에 한정 (cardCode 검사)
+ *   - 단순 substring 검사 (text.includes)
+ *   - 중복 제거 후 발견된 패턴 배열 반환
+ *
+ * @param {string} text - 검사할 텍스트
+ * @param {string} cardCode - 카드 코드
+ * @returns {string[]} 발견된 패턴 (없으면 빈 배열)
+ */
+export function detectAbsoluteExpressions(text, cardCode) {
+  if (!REVIEW_RULES.absoluteExpression.appliesTo.includes(cardCode)) return [];
+  if (!text) return [];
+  const found = [];
+  for (const pattern of REVIEW_RULES.absoluteExpression.patterns) {
+    if (text.includes(pattern)) found.push(pattern);
+  }
+  return [...new Set(found)];
+}

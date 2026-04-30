@@ -604,6 +604,71 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
+/* ═══ Step 3-C: 방어선 경고 박스 + 절대성 표현 검증 ═══ */
+
+/* 방어선 카드 진입 시 빨간 경고 박스 (카드 헤더 직하) */
+.defense-warning-box {
+  margin: 14px 0 6px;
+  padding: 14px 16px;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1.5px solid rgba(239, 68, 68, 0.55);
+  border-radius: 8px;
+  color: #fff5f5;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+}
+.defense-warning-box strong {
+  color: #fca5a5;
+  font-weight: 700;
+}
+
+.defense-downstream-hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  margin: 0 0 10px;
+  padding: 6px 12px;
+  background: rgba(239, 68, 68, 0.05);
+  border-left: 2px solid rgba(239, 68, 68, 0.4);
+  border-radius: 4px;
+}
+.defense-downstream-hint code {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+/* 절대성 표현 감지 노란 경고 박스 (textarea 아래) */
+.review-warning-box {
+  margin-top: 10px;
+  padding: 12px 14px;
+  background: rgba(234, 179, 8, 0.10);
+  border: 1px solid rgba(234, 179, 8, 0.45);
+  border-radius: 8px;
+  color: #fde68a;
+  font-size: 12px;
+  line-height: 1.6;
+  animation: review-fadein 0.18s ease-out;
+}
+.review-warning-box strong {
+  color: #fcd34d;
+  font-weight: 700;
+  background: rgba(234, 179, 8, 0.15);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+@keyframes review-fadein {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 모바일 폰트 보정 */
+@media (max-width: 600px) {
+  .defense-warning-box { font-size: 14px; padding: 14px 14px; }
+  .review-warning-box  { font-size: 13px; }
+}
+
 /* 디버그 메모 (Step 1 검수용) */
 .debug-note {
   margin-top: 24px;

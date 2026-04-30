@@ -17,6 +17,7 @@ import { DEPS }         from '../../data/deps.js';
 import { STATUS, STATUS_META } from '../state-machine.js';
 import * as store from '../store.js';
 import { buildGenerated, missingDeps } from '../prompt.js';
+import { detectAbsoluteExpressions } from '../../data/rules.js';
 
 function escapeHtml(s) {
   return String(s || '')
@@ -136,10 +137,16 @@ function renderBody(card) {
         — 합성 프롬프트에 "(${missing[0]} 결과 없음)" 마커가 들어갑니다. 먼저 해당 카드를 저장하세요.</div>`
     : '';
 
-  // 방어선 표시
-  const defenseNotice = card.defenseLine
-    ? `<div class="defense-notice">⚠ <strong>방어선 카드</strong> — ${escapeHtml(card.code)}는 HJ 투자 판단의 마지막 방어선.
-        <strong>"검토 완료"</strong>를 눌러야만 후속 카드(예: ${describeDownstream(card.code)})가 unlock됩니다. SAVED 상태만으로는 부족.</div>`
+  // 방어선 카드 명시적 경고 박스 (Step 3-C)
+  const defenseWarningBox = card.defenseLine
+    ? `<div class="defense-warning-box">
+        ⚠️ <strong>이 카드는 사용자 검토가 필수입니다.</strong><br>
+        자동으로 다음 단계로 진행되지 않으며, <strong>[검토 완료]</strong> 버튼을 누르기 전까지 다음 의존 카드는 잠금 해제되지 않습니다.
+       </div>`
+    : '';
+  // 보조 안내 (downstream 카드 명시) — 별도 줄
+  const defenseDownstream = card.defenseLine
+    ? `<div class="defense-downstream-hint">후속 의존 카드: <code>${escapeHtml(describeDownstream(card.code))}</code></div>`
     : '';
 
   // ai 사이트
@@ -158,13 +165,14 @@ function renderBody(card) {
       </div>
       <div class="cd-desc">${escapeHtml(card.desc)}</div>
       ${depsLine}
-      ${defenseNotice}
+      ${defenseWarningBox}
+      ${defenseDownstream}
 
       ${renderPromptPreview(generated, missingWarn)}
 
       ${renderActions(status, ai, aiLabel, aiUrl)}
 
-      ${renderResultArea(status, savedPayload)}
+      ${renderResultArea(status, savedPayload, card.code)}
 
       <div class="cd-hint">${renderHintText(status, deps, missing)}</div>
     </div>
@@ -253,7 +261,7 @@ function renderActions(status, ai, aiLabel, aiUrl) {
   return '';
 }
 
-function renderResultArea(status, savedPayload) {
+function renderResultArea(status, savedPayload, cardCode) {
   // RUNNING 이상에서만 표시
   const showStates = [STATUS.RUNNING, STATUS.PASTED, STATUS.SAVED, STATUS.REVIEWED, STATUS.WARNING, STATUS.MISSING];
   if (!showStates.includes(status)) return '';
@@ -261,6 +269,10 @@ function renderResultArea(status, savedPayload) {
   const readonly = (status === STATUS.SAVED || status === STATUS.REVIEWED) ? '' : '';
   const initialValue = savedPayload || _draftPayload || '';
   const charCount = initialValue.length;
+
+  // 초기 절대성 검사 (방어선 카드 + 이미 결과 있을 때) — 카드 진입 즉시 표시
+  const initialFound = detectAbsoluteExpressions(initialValue, cardCode);
+  const reviewBox = renderReviewWarningBox(initialFound);
 
   return `
     <div class="cd-section">
@@ -271,8 +283,21 @@ function renderResultArea(status, savedPayload) {
       <textarea id="ta-result" class="ta-result"
                 placeholder="${escapeHtml(getResultPlaceholder(status))}"
                 ${readonly}>${escapeHtml(initialValue)}</textarea>
+      <div id="review-warning-slot">${reviewBox}</div>
     </div>
   `;
+}
+
+/**
+ * 절대성 표현 경고 박스. found가 빈 배열이면 빈 문자열 반환 (박스 미표시).
+ */
+function renderReviewWarningBox(found) {
+  if (!found || found.length === 0) return '';
+  const list = found.map(p => `<strong>${escapeHtml(p)}</strong>`).join(', ');
+  return `<div class="review-warning-box">
+    🟡 다음 표현이 감지되었습니다: ${list}<br>
+    방어선 카드 특성상 절대성 표현은 한 번 더 검토하는 것을 권장합니다.
+  </div>`;
 }
 
 function getResultPlaceholder(status) {
@@ -347,10 +372,19 @@ function bindHandlers(card) {
 
   if (taResult) {
     taResult.addEventListener('input', async (ev) => {
-      _draftPayload = ev.target.value;
+      const v = ev.target.value;
+      _draftPayload = v;
       _draftCode = card.code;
-      if (charCount) charCount.textContent = `${ev.target.value.length}자`;
-      try { await store.actionPaste(card.code, ev.target.value); }
+      if (charCount) charCount.textContent = `${v.length}자`;
+
+      // 절대성 표현 검사 (방어선 카드 한정 — detectAbsoluteExpressions가 자체 필터)
+      const slot = document.getElementById('review-warning-slot');
+      if (slot) {
+        const found = detectAbsoluteExpressions(v, card.code);
+        slot.innerHTML = renderReviewWarningBox(found);
+      }
+
+      try { await store.actionPaste(card.code, v); }
       catch (e) { console.error(e); }
     });
   }
