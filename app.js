@@ -1,11 +1,14 @@
 // HJ 런치패드 v0.1 — 진입점
 // 1) Service Worker 등록 (있으면)
-// 2) 라우터 시작
-// 3) 콘솔에 데이터 점검 정보 출력 (Step 1 검수용)
+// 2) IndexedDB 활성 run 로드 (Step 2)
+// 3) 라우터 시작
+// 4) 콘솔에 데이터 점검 정보 출력
 
 import { initRouter } from './src/router.js';
 import { CARDS, VISIBLE_CARDS, CARD_BY_CODE } from './data/cards.js';
 import { DEPS }                                from './data/deps.js';
+import * as store from './src/store.js';
+import { _debug as storeDebug } from './src/store.js';
 
 async function registerSW() {
   if (!('serviceWorker' in navigator)) return;
@@ -41,8 +44,17 @@ function debugReport() {
   console.groupEnd();
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
+  // Step 2: 활성 run 먼저 로드 → 라우터 시작 시점에 카드 상태가 캐시에 있게.
+  try { await store.loadActiveRun(); }
+  catch (e) { console.warn('[store] loadActiveRun failed', e); }
+
   initRouter();
   debugReport();
   registerSW();
+
+  // 콘솔 디버그용 (F12 검수)
+  window.__store = store;
+  window.__storeDebug = storeDebug;
+  console.log('[store] window.__store / window.__storeDebug.cache() 로 캐시 점검 가능');
 });
