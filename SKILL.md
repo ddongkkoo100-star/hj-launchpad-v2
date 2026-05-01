@@ -44,13 +44,14 @@
 ## 기술 스택 고정
 
 - Vanilla JS (ES Modules), 빌드 단계 없음
-- IndexedDB (DB명: hj-launchpad-v2, v1)
-- Service Worker + manifest.json (PWA)
+- IndexedDB (DB명: hj-launchpad-v2, **v2** — Step 6에서 settings store 추가)
+- Service Worker + manifest.json (PWA, network-first 캐싱 — Step 6)
 - 호스팅: GitHub Pages (main 브랜치 root 직배포)
 - 타겟: Galaxy + Chrome 단일
 
-## 데이터 모델 (Step 2 확정, 변경 시 사용자 합의)
+## 데이터 모델 (Step 2~6 확정, 변경 시 사용자 합의)
 
 - runs (PK: runId="run-YYYYMMDD-HHmm")
 - cardStates (PK: id="${runId}::${cardCode}")
 - results (PK: id="${runId}::${cardCode}")
+- settings (PK: key, value) — Step 6 추가, 사용자 환경 설정 (글자 크기 등)

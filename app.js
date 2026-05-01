@@ -9,6 +9,7 @@ import { CARDS, VISIBLE_CARDS, CARD_BY_CODE } from './data/cards.js';
 import { DEPS }                                from './data/deps.js';
 import * as store from './src/store.js';
 import { _debug as storeDebug } from './src/store.js';
+import { loadAndApplySettings } from './src/views/settings.js';
 
 async function registerSW() {
   if (!('serviceWorker' in navigator)) return;
@@ -45,6 +46,10 @@ function debugReport() {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
+  // Step 6: 설정 먼저 적용 (글자 크기 등) — 다른 동작보다 먼저 body 클래스 부여
+  try { await loadAndApplySettings(); }
+  catch (e) { console.warn('[settings] load failed', e); }
+
   // Step 2: 활성 run 먼저 로드 → 라우터 시작 시점에 카드 상태가 캐시에 있게.
   try { await store.loadActiveRun(); }
   catch (e) { console.warn('[store] loadActiveRun failed', e); }
