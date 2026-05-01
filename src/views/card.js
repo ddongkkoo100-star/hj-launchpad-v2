@@ -175,6 +175,8 @@ function renderBody(card) {
       ${renderResultArea(status, savedPayload, card.code)}
 
       <div class="cd-hint">${renderHintText(status, deps, missing)}</div>
+
+      <a class="back-to-dashboard" href="#/" id="btn-back-dashboard">← 대시보드로</a>
     </div>
 
     <div class="toast-copy" id="toast-copy" aria-live="polite"></div>

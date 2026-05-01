@@ -669,6 +669,37 @@ body {
   .review-warning-box  { font-size: 13px; }
 }
 
+/* ═══ Step 3-D: 카드 화면 하단 [← 대시보드로] 버튼 ═══ */
+.back-to-dashboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+  padding: 12px 18px;
+  min-height: 44px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.back-to-dashboard:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: rgba(0, 200, 255, 0.06);
+}
+.back-to-dashboard:active { transform: scale(0.99); }
+
+@media (max-width: 600px) {
+  .back-to-dashboard { font-size: 13px; min-height: 48px; margin-top: 24px; }
+}
+
 /* 디버그 메모 (Step 1 검수용) */
 .debug-note {
   margin-top: 24px;
