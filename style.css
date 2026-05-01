@@ -700,6 +700,270 @@ body {
   .back-to-dashboard { font-size: 13px; min-height: 48px; margin-top: 24px; }
 }
 
+/* ═══ Step 5: 대시보드 — 진행률 + 그룹 + 다음 할 카드 강조 ═══ */
+
+/* run-header compact 변형 (run 활성 상태) */
+.run-header.compact {
+  padding: 10px 14px;
+  margin-bottom: 12px;
+}
+.run-header.compact .run-label { font-size: 11px; }
+.run-header.compact .run-hint  { font-size: 10px; margin-top: 2px; }
+
+/* ── 진행률 블록 (전체 + 그룹 미니) ─────────── */
+.progress-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 16px 14px;
+  margin-bottom: 22px;
+}
+
+.progress-overall .po-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.po-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.po-count {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+.po-count .po-sep {
+  color: var(--muted);
+  font-weight: 400;
+  margin: 0 2px;
+}
+
+.po-bar {
+  height: 8px;
+  background: var(--bg4);
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid var(--border2);
+}
+.po-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #4ade80);
+  border-radius: 5px 0 0 5px;
+  transition: width .3s ease-out;
+  box-shadow: 0 0 8px rgba(0, 200, 255, 0.35);
+}
+
+.po-meta {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.3px;
+}
+
+/* 그룹 미니 progress (3개 가로 정렬) */
+.progress-mini-group {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border2);
+}
+.mini-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.mini-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px;
+}
+.mini-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+.mini-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.mini-bar {
+  height: 4px;
+  background: var(--bg4);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--border2);
+}
+.mini-bar-fill {
+  height: 100%;
+  border-radius: 3px 0 0 3px;
+  transition: width .25s ease-out;
+}
+.mini-collect .mini-label { color: var(--grok); }
+.mini-collect .mini-bar-fill { background: var(--grok); }
+.mini-judge   .mini-label { color: var(--accent); }
+.mini-judge   .mini-bar-fill { background: var(--accent); }
+.mini-defense .mini-label { color: #fca5a5; }
+.mini-defense .mini-bar-fill { background: #ef4444; }
+
+@media (max-width: 480px) {
+  .progress-mini-group {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .po-count { font-size: 20px; }
+}
+
+/* ── 그룹 섹션 헤더 v2 ──────────────────────── */
+.group-section {
+  margin: 20px 0 14px;
+}
+.group-section:first-of-type { margin-top: 4px; }
+
+.group-header-v2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border-left: 3px solid var(--border2);
+  border-radius: 0 6px 6px 0;
+  background: linear-gradient(90deg, var(--bg3), transparent 70%);
+}
+.gh-title { display: flex; align-items: baseline; gap: 8px; }
+.gh-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.gh-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+.gh-count-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--bg3);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border2);
+}
+
+.group-collect .group-header-v2 { border-left-color: var(--grok); }
+.group-collect .gh-label        { color: var(--grok); }
+.group-judge   .group-header-v2 { border-left-color: var(--accent); }
+.group-judge   .gh-label        { color: var(--accent); }
+.group-defense .group-header-v2 {
+  border-left-color: var(--red);
+  background: linear-gradient(90deg, rgba(239,68,68,0.08), transparent 70%);
+}
+.group-defense .gh-label { color: #fca5a5; }
+
+/* 방어선 그룹 — 카드 리스트 컨테이너에 옅은 빨간 보더 */
+.group-defense .card-list {
+  padding: 6px;
+  border: 1px dashed rgba(239, 68, 68, 0.30);
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.02);
+}
+
+/* ── 카드 row 개선 ──────────────────────────── */
+.card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.card-title-row .card-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* "다음 할 카드" 미니 라벨 */
+.next-hint {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent);
+  background: rgba(0, 200, 255, 0.10);
+  border: 1px solid rgba(0, 200, 255, 0.40);
+  padding: 2px 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* "다음 할 카드" 강조 — READY 상태 카드 */
+.card-row.is-next {
+  border-color: rgba(0, 200, 255, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(0, 200, 255, 0.18) inset,
+    0 0 12px rgba(0, 200, 255, 0.18);
+  animation: next-pulse 2.4s ease-in-out infinite;
+}
+@keyframes next-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(0,200,255,0.18) inset, 0 0 8px rgba(0,200,255,0.12); }
+  50%      { box-shadow: 0 0 0 1px rgba(0,200,255,0.28) inset, 0 0 16px rgba(0,200,255,0.28); }
+}
+
+/* 방어선 카드가 READY 인 경우 — 빨간 보더 우선이지만 시안 글로우 살짝 */
+.card-row.is-defense.is-next {
+  border-color: rgba(239, 68, 68, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.20) inset,
+    0 0 14px rgba(0, 200, 255, 0.18);
+  animation: next-pulse-defense 2.4s ease-in-out infinite;
+}
+@keyframes next-pulse-defense {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(239,68,68,0.20) inset, 0 0 8px rgba(0,200,255,0.10); }
+  50%      { box-shadow: 0 0 0 1px rgba(239,68,68,0.35) inset, 0 0 16px rgba(0,200,255,0.22); }
+}
+
+/* SAVED/REVIEWED 완료 카드 — 약간 어둡게 (시각 우선순위 낮춤) */
+.card-row.is-done {
+  opacity: 0.78;
+}
+.card-row.is-done:hover { opacity: 1; }
+
+/* 모바일 보정 */
+@media (max-width: 600px) {
+  .progress-block { padding: 14px 14px 12px; }
+  .group-header-v2 { padding: 7px 10px; }
+  .gh-label { font-size: 11px; letter-spacing: 1px; }
+  .gh-sub   { font-size: 9px; }
+  .next-hint { font-size: 9px; padding: 2px 6px; }
+}
+
 /* 디버그 메모 (Step 1 검수용) */
 .debug-note {
   margin-top: 24px;
