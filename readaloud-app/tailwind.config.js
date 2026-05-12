@@ -1,0 +1,35 @@
+const { themeColors } = require("./theme.config");
+const plugin = require("tailwindcss/plugin");
+
+const tailwindColors = Object.fromEntries(
+  Object.entries(themeColors).map(([name, swatch]) => [
+    name,
+    {
+      DEFAULT: `var(--color-${name})`,
+      light: swatch.light,
+      dark: swatch.dark,
+    },
+  ]),
+);
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: "class",
+  content: ["./app/**/*.{js,ts,tsx}", "./components/**/*.{js,ts,tsx}", "./lib/**/*.{js,ts,tsx}", "./hooks/**/*.{js,ts,tsx}"],
+  presets: [require("nativewind/preset")],
+  theme: {
+    extend: {
+      colors: tailwindColors,
+      fontSize: {
+        "sentence": ["52px", { lineHeight: "72px", fontWeight: "700" }],
+        "korean": ["26px", { lineHeight: "40px" }],
+      },
+    },
+  },
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant("light", ':root:not([data-theme="dark"]) &');
+      addVariant("dark", ':root[data-theme="dark"] &');
+    }),
+  ],
+};
